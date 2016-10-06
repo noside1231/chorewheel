@@ -1,12 +1,15 @@
 import java.awt.*;
+import java.awt.font.GlyphVector;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
+import static java.awt.Font.getFont;
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.StrictMath.sqrt;
+import static sun.swing.SwingUtilities2.getFontMetrics;
 
 public class ChoreArc {
     private int x, y;
@@ -64,6 +67,13 @@ public class ChoreArc {
         g.setColor(Color.BLACK);
         ((Graphics2D)g).setStroke(new BasicStroke(8));
         g.drawArc(x, y, w, h, (int)(start + dispTheta), (int)extent);
+
+//        g.setColor(Color.BLACK);
+//        Font f = getFont("").deriveFont(Font.BOLD, 70);
+//        GlyphVector v = f.createGlyphVector(getFontMetrics(f).getFontRenderContext(), "Hello"); // fixme
+//        Shape s = v.getOutline();
+
+//        Point p = getPointOnCircle(th);
     }
 
     public void setDispTheta(double dispTheta) {
