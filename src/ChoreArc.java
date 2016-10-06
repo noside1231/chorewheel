@@ -63,10 +63,10 @@ public class ChoreArc {
 
     public void paint(GraphicsContext g) {
         g.setFill(color);
-        g.fillArc(x, y, w, h, (int)(start + dispTheta), (int)extent, ArcType.CHORD);
+        g.fillArc(x, y, w, h, (int)(start + dispTheta), (int)extent, ArcType.ROUND);
         g.setStroke(Color.BLACK);
         g.setLineWidth(8);
-        g.strokeArc(x, y, w, h, (int)(start + dispTheta), (int)extent, ArcType.CHORD);
+        g.strokeArc(x, y, w, h, (int)(start + dispTheta), (int)extent, ArcType.ROUND);
     }
 
     public void setDispTheta(double dispTheta) {

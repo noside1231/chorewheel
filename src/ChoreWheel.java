@@ -1,3 +1,5 @@
+import javafx.scene.layout.StackPane;
+
 import javax.sound.sampled.Line;
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +16,7 @@ import java.util.ArrayList;
 import static java.lang.Math.PI;
 import static java.lang.Math.random;
 
-public class ChoreWheel {
+public class ChoreWheel extends StackPane {
     private ChoreWheelRun run;
     private ArrayList<ChoreArc> choreArcs;
     private ArrayList<ChoreArc> choreArcsSmall;
@@ -135,5 +137,13 @@ public class ChoreWheel {
         if(keys[KeyEvent.VK_SPACE]) {
             spin();
         }
+    }
+
+    public void addEventHandlers() {
+
+    }
+
+    public void runGame(double t) {
+
     }
 }
