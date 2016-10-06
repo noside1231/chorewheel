@@ -1,18 +1,29 @@
+import javafx.geometry.Point2D;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
+import javafx.scene.shape.Line;
 
-import static java.awt.Font.getFont;
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.StrictMath.sqrt;
+import static sun.swing.SwingUtilities2.getFontMetrics;
 
 public class ChoreArc {
+    private int x, y;
+    private int w, h;
+    private double start, extent;
     private Color color;
     private String name;
     private double dispTheta;
 
-    public ChoreArc(double centerX, double centerY, , Color color, String name) {
+    public ChoreArc(int x, int y, int w, int h, double start, double extent, Color color, String name) {
+        this.x = x; this.y = y;
+        this.w = w; this.h = h;
+        this.start = start;
+        this.extent = extent;
         this.color = color;
         this.name = name;
     }
@@ -26,16 +37,16 @@ public class ChoreArc {
     }
 
     public Arc getShape() {
-        return new Arc();
+        return new Arc(x + w/2, y + h/2, w/2, h/2, start + dispTheta, extent);
     }
 
-    public Line2D.Double getLeftLine() {
+    public Line getLeftLine() {
         Point2D point = getPointOnCircle(start);
-        return new Line2D.Double(point.getX(), point.getY(), point.getX(), point.getY());
+        return new Line(point.getX(), point.getY(), point.getX(), point.getY());
     }
 
-    private Point2D.Double getPointOnCircle(double theta) {
-        return new Point2D.Double(getRadius()*cos(theta*PI/180) + getCenterX(), getRadius()*sin(theta*PI/180) + getCenterY());
+    private Point2D getPointOnCircle(double theta) {
+        return new Point2D(getRadius()*cos(theta*PI/180) + getCenterX(), getRadius()*sin(theta*PI/180) + getCenterY());
     }
 
     private int getCenterX() {
@@ -50,19 +61,12 @@ public class ChoreArc {
         return w/2;
     }
 
-    public void paint(Graphics g) {
-        g.setColor(color);
-        g.fillArc(x, y, w, h, (int)(start + dispTheta), (int)extent);
-        g.setColor(Color.BLACK);
-        ((Graphics2D)g).setStroke(new BasicStroke(8));
-        g.drawArc(x, y, w, h, (int)(start + dispTheta), (int)extent);
-
-//        g.setColor(Color.BLACK);
-//        Font f = getFont("").deriveFont(Font.BOLD, 70);
-//        GlyphVector v = f.createGlyphVector(getFontMetrics(f).getFontRenderContext(), "Hello"); // fixme
-//        Shape s = v.getOutline();
-
-//        Point p = getPointOnCircle(th);
+    public void paint(GraphicsContext g) {
+        g.setFill(color);
+        g.fillArc(x, y, w, h, (int)(start + dispTheta), (int)extent, ArcType.CHORD);
+        g.setStroke(Color.BLACK);
+        g.setLineWidth(8);
+        g.strokeArc(x, y, w, h, (int)(start + dispTheta), (int)extent, ArcType.CHORD);
     }
 
     public void setDispTheta(double dispTheta) {
