@@ -1,29 +1,18 @@
-import java.awt.*;
-import java.awt.font.GlyphVector;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Arc;
 
 import static java.awt.Font.getFont;
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.StrictMath.sqrt;
-import static sun.swing.SwingUtilities2.getFontMetrics;
 
 public class ChoreArc {
-    private int x, y;
-    private int w, h;
-    private double start, extent;
     private Color color;
     private String name;
     private double dispTheta;
 
-    public ChoreArc(int x, int y, int w, int h, double start, double extent, Color color, String name) {
-        this.x = x; this.y = y;
-        this.w = w; this.h = h;
-        this.start = start;
-        this.extent = extent;
+    public ChoreArc(double centerX, double centerY, , Color color, String name) {
         this.color = color;
         this.name = name;
     }
@@ -36,8 +25,8 @@ public class ChoreArc {
         return name;
     }
 
-    public Arc2D.Double getShape() {
-        return new Arc2D.Double(x, y, w, h, start + dispTheta, extent, Arc2D.PIE);
+    public Arc getShape() {
+        return new Arc();
     }
 
     public Line2D.Double getLeftLine() {

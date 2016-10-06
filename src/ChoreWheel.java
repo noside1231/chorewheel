@@ -75,15 +75,15 @@ public class ChoreWheel {
         for (ChoreArc choreArc : choreArcs) {
             choreArc.paint(g);
         }
-
         for (ChoreArc choreArc : choreArcsSmall) {
             choreArc.paint(g);
         }
         pin.paint(g);
 
-
         g.setColor(Color.BLACK);
         g.fillRect(800, 400, 10, 10);
+
+//        g.
     }
 
     public void update() {
