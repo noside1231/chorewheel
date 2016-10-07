@@ -12,14 +12,14 @@ import static java.lang.StrictMath.sqrt;
 import static sun.swing.SwingUtilities2.getFontMetrics;
 
 public class ChoreArc {
-    private int x, y;
-    private int w, h;
+    private double x, y;
+    private double w, h;
     private double start, extent;
     private Color color;
     private String name;
     private double dispTheta;
 
-    public ChoreArc(int x, int y, int w, int h, double start, double extent, Color color, String name) {
+    public ChoreArc(double x, double y, double w, double h, double start, double extent, Color color, String name) {
         this.x = x; this.y = y;
         this.w = w; this.h = h;
         this.start = start;
@@ -49,15 +49,15 @@ public class ChoreArc {
         return new Point2D(getRadius()*cos(theta*PI/180) + getCenterX(), getRadius()*sin(theta*PI/180) + getCenterY());
     }
 
-    private int getCenterX() {
+    private double getCenterX() {
         return x + w/2;
     }
 
-    private int getCenterY() {
+    private double getCenterY() {
         return y + h/2;
     }
 
-    private int getRadius() {
+    private double getRadius() {
         return w/2;
     }
 
@@ -65,7 +65,7 @@ public class ChoreArc {
         g.setFill(color);
         g.fillArc(x, y, w, h, (int)(start + dispTheta), (int)extent, ArcType.ROUND);
         g.setStroke(Color.BLACK);
-        g.setLineWidth(8);
+        g.setLineWidth(2);
         g.strokeArc(x, y, w, h, (int)(start + dispTheta), (int)extent, ArcType.ROUND);
     }
 

@@ -1,22 +1,16 @@
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.Effect;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.transform.Affine;
 
-import javax.sound.sampled.Line;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Area;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
 import static java.lang.Math.PI;
 import static java.lang.Math.random;
 
-public class ChoreWheel extends StackPane {
+public class ChoreWheel extends AutoScalingStackPane {
     private ChoreWheelRun run;
     private ArrayList<ChoreArc> choreArcs;
     private ArrayList<ChoreArc> choreArcsSmall;
@@ -31,49 +25,43 @@ public class ChoreWheel extends StackPane {
     private boolean wheelIsSpinning;
     private Color color;
 
-    public ChoreWheel(ChoreWheelRun choreWheelRun, int width, int height) {
+    public ChoreWheel(ChoreWheelRun choreWheelRun) {
+        setAutoScale(AutoScale.FILL);
         choreArcs = new ArrayList<>();
         choreArcsSmall = new ArrayList<>();
         pin = new ChorePin();
         run = choreWheelRun;
         populateChores();
         color = Color.RED;
-
-        JFrame f = new JFrame("Chore Wheel ap#1022");
-        f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        f.addWindowListener( new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                run.endLoop();
-            }
-        });
-        f.setBounds(100, 100, width, height);
-        f.setContentPane(run);
-        f.setVisible(true);
-        f.setResizable(false);
     }
 
     private void populateChores() { //fixme
-        choreArcs.add(new ChoreArc(50, 200, 1500, 1500, 5, 45, Color.green, "wash1"));
-        choreArcs.add(new ChoreArc(50, 200, 1500, 1500, 50, 45, Color.red, "wash2"));
-        choreArcs.add(new ChoreArc(50, 200, 1500, 1500, 95, 45, Color.blue, "wash3"));
-        choreArcs.add(new ChoreArc(50, 200, 1500, 1500, 140, 45, Color.CYAN, "wash4"));
-        choreArcs.add(new ChoreArc(50, 200, 1500, 1500, 185, 45, Color.PINK, "wash5"));
-        choreArcs.add(new ChoreArc(50, 200, 1500, 1500, 230, 45, Color.ORANGE, "wash6"));
-        choreArcs.add(new ChoreArc(50, 200, 1500, 1500, 275, 45, Color.YELLOW, "wash7"));
-        choreArcs.add(new ChoreArc(50, 200, 1500, 1500, 320, 45, Color.MAGENTA, "wash8"));
+        double x1 = 5 * ChoreWheelRun.scale;
+        double y1 = 20 * ChoreWheelRun.scale;
+        double r1 = 150 * ChoreWheelRun.scale;
+        choreArcs.add(new ChoreArc(x1, y1, r1, r1, 5, 45, Color.GREEN, "wash1"));
+        choreArcs.add(new ChoreArc(x1, y1, r1, r1, 50, 45, Color.RED, "wash2"));
+        choreArcs.add(new ChoreArc(x1, y1, r1, r1, 95, 45, Color.BLUE, "wash3"));
+        choreArcs.add(new ChoreArc(x1, y1, r1, r1, 140, 45, Color.CYAN, "wash4"));
+        choreArcs.add(new ChoreArc(x1, y1, r1, r1, 185, 45, Color.PINK, "wash5"));
+        choreArcs.add(new ChoreArc(x1, y1, r1, r1, 230, 45, Color.ORANGE, "wash6"));
+        choreArcs.add(new ChoreArc(x1, y1, r1, r1, 275, 45, Color.YELLOW, "wash7"));
+        choreArcs.add(new ChoreArc(x1, y1, r1, r1, 320, 45, Color.MAGENTA, "wash8"));
 
-        choreArcsSmall.add(new ChoreArc(50 + 400, 200 + 400, 700, 700, 5 + 15, 45, Color.green, roommates[0]));
-        choreArcsSmall.add(new ChoreArc(50 + 400, 200 + 400, 700, 700, 50 + 15, 45, Color.red, roommates[1]));
-        choreArcsSmall.add(new ChoreArc(50 + 400, 200 + 400, 700, 700, 95 + 15, 45, Color.blue, roommates[2]));
-        choreArcsSmall.add(new ChoreArc(50 + 400, 200 + 400, 700, 700, 140 + 15, 45, Color.CYAN, roommates[3]));
-        choreArcsSmall.add(new ChoreArc(50 + 400, 200 + 400, 700, 700, 185 + 15, 45, Color.PINK, roommates[4]));
-        choreArcsSmall.add(new ChoreArc(50 + 400, 200 + 400, 700, 700, 230 + 15, 45, Color.ORANGE, roommates[5]));
-        choreArcsSmall.add(new ChoreArc(50 + 400, 200 + 400, 700, 700, 275 + 15, 45, Color.YELLOW, roommates[6]));
-        choreArcsSmall.add(new ChoreArc(50 + 400, 200 + 400, 700, 700, 320 + 15, 45, Color.MAGENTA, roommates[7]));
+        double x2 = 45 * ChoreWheelRun.scale;
+        double y2 = 60 * ChoreWheelRun.scale;
+        double r2 = 70 * ChoreWheelRun.scale;
+        choreArcsSmall.add(new ChoreArc(x2, y2, r2, r2, 5 + 15, 45, Color.GREEN, roommates[0]));
+        choreArcsSmall.add(new ChoreArc(x2, y2, r2, r2, 50 + 15, 45, Color.RED, roommates[1]));
+        choreArcsSmall.add(new ChoreArc(x2, y2, r2, r2, 95 + 15, 45, Color.BLUE, roommates[2]));
+        choreArcsSmall.add(new ChoreArc(x2, y2, r2, r2, 140 + 15, 45, Color.CYAN, roommates[3]));
+        choreArcsSmall.add(new ChoreArc(x2, y2, r2, r2, 185 + 15, 45, Color.PINK, roommates[4]));
+        choreArcsSmall.add(new ChoreArc(x2, y2, r2, r2, 230 + 15, 45, Color.ORANGE, roommates[5]));
+        choreArcsSmall.add(new ChoreArc(x2, y2, r2, r2, 275 + 15, 45, Color.YELLOW, roommates[6]));
+        choreArcsSmall.add(new ChoreArc(x2, y2, r2, r2, 320 + 15, 45, Color.MAGENTA, roommates[7]));
     }
 
-    public void render(Graphics g) {
+    public void render(GraphicsContext g) {
         for (ChoreArc choreArc : choreArcs) {
             choreArc.paint(g);
         }
@@ -82,10 +70,8 @@ public class ChoreWheel extends StackPane {
         }
         pin.paint(g);
 
-        g.setColor(Color.BLACK);
-        g.fillRect(800, 400, 10, 10);
-
-//        g.
+        g.setFill(Color.BLACK);
+        g.fillRect(80 * ChoreWheelRun.scale, 40 * ChoreWheelRun.scale, 1, 1);
     }
 
     public void update() {
@@ -133,17 +119,18 @@ public class ChoreWheel extends StackPane {
         }
     }
 
-    public void processInput(boolean[] keys) {
-        if(keys[KeyEvent.VK_SPACE]) {
-            spin();
-        }
-    }
-
     public void addEventHandlers() {
-
+        run.getScene().setOnKeyReleased(event -> {
+            if (event.getCode().equals(KeyCode.SPACE)) {
+                spin();
+            }
+        });
     }
 
     public void runGame(double t) {
-
+        run.getGlassG().clearRect(0, 0, 1920, 1080);
+        rescale();
+        render(run.getGlassG());
+        update();
     }
 }

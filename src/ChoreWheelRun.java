@@ -12,12 +12,10 @@ import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 
 public class ChoreWheelRun extends Application {
+    public static double scale = 3;
     private boolean gameOver = false;
-    public static final int pixelScale = 25;
-    public static final int height = pixelScale*35;
-    public static final int width = (4*pixelScale)*13;
-    public static final int MS_PER_UPDATE = 20;
-    private boolean[] keys;
+    public static final double width = (int) (277.5 * scale);
+    public static final double height = (int) (185  * scale);
     private ChoreWheel wheel;
     private Canvas canvas;
     private GraphicsContext g;
@@ -27,7 +25,7 @@ public class ChoreWheelRun extends Application {
     public void start(Stage theStage) throws URISyntaxException, FileNotFoundException {
         theStage.setTitle("Breakout -- Alex Petrusca");
 
-        wheel =  new ChoreWheel(this, width, height);;
+        wheel =  new ChoreWheel(this);;
         theScene = new Scene(wheel, width, height, Color.WHITE);
         theStage.setScene(theScene);
         canvas = new Canvas(width, height);
@@ -50,32 +48,6 @@ public class ChoreWheelRun extends Application {
         };
         gameLoop.start();
         theStage.show();
-    }
-
-//    public void paintComponent(Graphics g) {
-//        super.paintComponent(g);
-//        requestFocus();
-//        wheel.render(g);
-//    }
-
-    public void gameLoop() {
-        double previous = System.currentTimeMillis();
-        double lag = 0.0;
-        while (!gameOver)
-        {
-            double current = System.currentTimeMillis();
-            double elapsed = current - previous;
-            previous = current;
-            lag += elapsed;
-
-            wheel.processInput(keys);
-
-            while (lag >= MS_PER_UPDATE)
-            {
-                wheel.update();
-                lag -= MS_PER_UPDATE;
-            }
-        }
     }
 
     public Scene getScene() {
