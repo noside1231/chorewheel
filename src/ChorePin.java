@@ -1,6 +1,3 @@
-//import java.awt.*;
-//import java.awt.geom.AffineTransform;
-
 import static java.lang.Math.*;
 
 import javafx.collections.ObservableList;
@@ -13,10 +10,10 @@ import javafx.scene.paint.Color;
 
 
 public class ChorePin {
-    private double theta = 45;
+    private double theta = 0;
     private double angularVel = 0;
     private double angularAcc = 0;
-    private double angularAccVal = PI / 300 * 180;
+    private double angularAccVal = PI/300;
     private boolean isHit = true;
 
     public ChorePin() {
@@ -51,38 +48,38 @@ public class ChorePin {
     }
 
     private double energy() {
-        return 100 * abs(theta % (2 * PI)) + 150 * abs(angularVel) * abs(angularVel);
+        return 100*abs(theta%(2*PI)) + 150*abs(angularVel)*abs(angularVel);
     }
 
     public Point2D getColorSamplePoint() {
         return new Point2D(80*ChoreWheelRun.scale, 40*ChoreWheelRun.scale);
     }
 
-    public void paint(GraphicsContext g2) {
+    public void paint(GraphicsContext g) {
         updatePhysics();
 
-        g2.save();
+        g.save();
         {
             Affine trans = new Affine();
             trans.append(Affine.translate(80 * ChoreWheelRun.scale, 5.5 * ChoreWheelRun.scale));
             trans.append(Affine.scale(10, 10));
-            trans.append(Affine.rotate(theta, 0, 0));
-            g2.setTransform(trans);
+            trans.append(Affine.rotate(theta * 180/PI, 0, 0));
+            g.setTransform(trans);
 
-            g2.setFill(Color.GRAY);
-            g2.setStroke(Color.BLACK);
-            g2.setLineWidth(0.2);
-            double[] xs = {0, 1, 1, 1, 2, 0, -2, -1, -1, -1, 0};
-            double[] ys = {0, 0, 2, 4, 4, 8,  4,  4,  2,  0, 0};
-            g2.fillPolygon(xs, ys, 11);
-            g2.strokePolygon(xs, ys, 11);
+            g.setFill(Color.GRAY);
+            g.setStroke(Color.BLACK);
+            g.setLineWidth(0.2);
+            double[] xs = { 0, 1, 1, 1, 2, 0, -2, -1, -1, -1, 0 };
+            double[] ys = { 0, 0, 2, 4, 4, 8,  4,  4,  2,  0, 0 };
+            g.fillPolygon(xs, ys, 11);
+            g.strokePolygon(xs, ys, 11);
         }
-        g2.restore();
+        g.restore();
 
         double r = 2*ChoreWheelRun.scale;
-        g2.setFill(Color.LIGHTGRAY);
-        g2.fillArc(80*ChoreWheelRun.scale - r / 2, 5.5*ChoreWheelRun.scale - r / 2, r, r, 0, 360, ArcType.ROUND);
-        g2.setStroke(Color.BLACK);
-        g2.strokeArc(80*ChoreWheelRun.scale - r / 2, 5.5*ChoreWheelRun.scale - r / 2, r, r, 0, 360, ArcType.OPEN);
+        g.setFill(Color.LIGHTGRAY);
+        g.fillArc(80*ChoreWheelRun.scale - r/2, 5.5*ChoreWheelRun.scale - r/2, r, r, 0, 360, ArcType.ROUND);
+        g.setStroke(Color.BLACK);
+        g.strokeArc(80*ChoreWheelRun.scale - r/2, 5.5*ChoreWheelRun.scale - r/2, r, r, 0, 360, ArcType.OPEN);
     }
 }

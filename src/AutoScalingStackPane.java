@@ -10,7 +10,7 @@ import javafx.scene.layout.StackPane;
  * A StackPane that <i>scales</i> its contents to fit (preserving aspect ratio),
  * or fill (scaling independently in X and Y) the available area.
  * <p>
- * Note <code>AutoScalingStackPane</code> applies to the contents a scaling
+ * Note <code>AutoScalingFlowPane</code> applies to the contents a scaling
  * transformation rather than attempting to resize the contents.
  * <p>
  * If the contents is a Canvas with pixel dimension 50 by 50, after scaling the
@@ -23,7 +23,7 @@ import javafx.scene.layout.StackPane;
  * Point of Sale full screen applications)
  * <p>
  * <h3>Known Limitations</h3>
- * Rescaling occurs only when the AutoScalingStackPane is resized, it does not
+ * Rescaling occurs only when the AutoScalingFlowPane is resized, it does not
  * occur automatically if and when the content changes size.
  *
  *
@@ -33,7 +33,7 @@ public class AutoScalingStackPane extends StackPane {
 
     /**
      * Force scale transformation to be recomputed based on the size of this
-     * <code>AutoScalingStackPane</code> and the size of the contents.
+     * <code>AutoScalingFlowPane</code> and the size of the contents.
      */
     public void rescale() {
         if (!getChildren().isEmpty()) {
@@ -104,9 +104,9 @@ public class AutoScalingStackPane extends StackPane {
             AutoScale.FIT);
 
     /**
-     * AutoScalingStackPane scaling property
+     * AutoScalingFlowPane scaling property
      *
-     * @return AutoScalingStackPane scaling property
+     * @return AutoScalingFlowPane scaling property
      * @see AutoScale
      */
     public ObjectProperty<AutoScale> autoScaleProperty() {

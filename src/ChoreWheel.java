@@ -4,6 +4,7 @@ import javafx.scene.effect.Effect;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Affine;
 
 import java.util.ArrayList;
@@ -82,9 +83,9 @@ public class ChoreWheel extends AutoScalingStackPane {
 
     private void checkCollision() {
         for (ChoreArc choreArc : choreArcs) {
-            if(choreArc.getShape().contains(pin.getColorSamplePoint())) {
-                if(!color.equals(choreArc.getColor())) {
-                    pin.hit(PI/30);
+            if(choreArc.getShape().getBoundsInParent().intersects(new Rectangle(pin.getColorSamplePoint().getX(), pin.getColorSamplePoint().getY(), 2, 2).getBoundsInParent())) {
+                if(color != choreArc.getColor()) {
+                    pin.hit(PI/20);
                     color = choreArc.getColor();
                 }
             }
