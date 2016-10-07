@@ -4,6 +4,9 @@ import javafx.scene.CacheHint;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -23,10 +26,16 @@ public class ChoreWheelRun extends Application {
     private Stage theStage;
 
     public void start(Stage theStage) throws URISyntaxException, FileNotFoundException {
-        theStage.setTitle("Breakout -- Alex Petrusca");
+        theStage.setTitle("Chore Wheel #LIT");
 
-        wheel =  new ChoreWheel(this);;
-        theScene = new Scene(wheel, width, height, Color.WHITE);
+        wheel = new ChoreWheel(this);
+        ChoreWheelUI ui = new ChoreWheelUI();
+
+        GridPane gridPane = new GridPane();
+        gridPane.add(wheel, 0, 0);
+        gridPane.add(ui, 1, 0);
+
+        theScene = new Scene(gridPane, width, height, Color.WHITE);
         theStage.setScene(theScene);
         canvas = new Canvas(width, height);
 
