@@ -87,7 +87,7 @@ public class ChoreWheel extends AutoScalingStackPane {
                     pin.hit(PI/20);
                     pointedAt = arc;
                 }
-            }
+            } //edison is lit siick tubular
         }
     }
 
