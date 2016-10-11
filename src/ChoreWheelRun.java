@@ -8,6 +8,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -29,7 +30,7 @@ public class ChoreWheelRun extends Application {
     protected Scene configScene;
     protected Stage theStage;
 
-    Button spinButton, configButton;
+    Button spinButton;
     Button spinBackButton;
 
     public void start(Stage theStage) throws URISyntaxException, FileNotFoundException {
@@ -46,11 +47,18 @@ public class ChoreWheelRun extends Application {
 
         spinBackButton = new Button("Back");
 
+        spinBackButton.setOnAction(e -> ButtonClicked(e));
+
+
         canvas.setCacheHint(CacheHint.SPEED);
         wheel.setCacheHint(CacheHint.SPEED);
 
         wheel.getChildren().add(canvas);
-        wheel.getChildren().add(spinBackButton);
+        FlowPane pane = new FlowPane();
+        pane.getChildren().add(spinBackButton);
+        wheel.getChildren().add(pane);
+        wheel.requestFocus();
+
         g = canvas.getGraphicsContext2D();
         this.theStage = theStage;
         wheel.addEventHandlers();
@@ -92,8 +100,9 @@ public class ChoreWheelRun extends Application {
 
     public void ButtonClicked(ActionEvent e) {
         {
-            if (e.getSource()==spinButton)
-                theStage.setScene(spinScene);
+            if(e.getSource()==spinBackButton)
+                wheel.requestFocus();
+                theStage.setScene(mainMenuScene);
         }
     }
 }
