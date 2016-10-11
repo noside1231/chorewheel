@@ -1,14 +1,13 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.scene.CacheHint;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -21,19 +20,31 @@ public class ChoreWheelRun extends Application {
     public static final double width = (int) (277.5 * scale);
     public static final double height = (int) (185  * scale);
     private ChoreWheel wheel;
+    private MainMenu menu;
     private Canvas canvas;
     private GraphicsContext g;
-    private Scene theScene;
-    private Stage theStage;
+    protected Scene spinScene;
+    private Scene mainMenuScene;
+    protected Stage theStage;
+
+    Button spinButton, configButton;
+    Label lblscene1, lblscene2;
+    FlowPane pane1, pane2;
+    Scene scene1, scene2;
+
 
     public void start(Stage theStage) throws URISyntaxException, FileNotFoundException {
         theStage.setTitle("Chore Wheel #LIT");
 
         wheel = new ChoreWheel(this);
+        menu = new MainMenu(this);
 
-        theScene = new Scene(wheel, width, height, Color.WHITE);
-        theStage.setScene(theScene);
+        spinScene = new Scene(wheel, width, height, Color.WHITE);
+        mainMenuScene = new Scene(menu, width,height, Color.WHITE);
         canvas = new Canvas(width, height);
+
+        //pane1.getChildren().addAll(lblscene1,spinButton, configButton);
+        //pane2.getChildren().addAll(lblscene2, configButton);
 
         canvas.setCacheHint(CacheHint.SPEED);
         wheel.setCacheHint(CacheHint.SPEED);
@@ -51,12 +62,15 @@ public class ChoreWheelRun extends Application {
                 wheel.runGame(t);
             }
         };
+
+        theStage.setScene(mainMenuScene);
+
         gameLoop.start();
         theStage.show();
     }
 
     public Scene getScene() {
-        return theScene;
+        return spinScene;
     }
 
     public Stage getStage() {
@@ -73,5 +87,14 @@ public class ChoreWheelRun extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public void ButtonClicked(ActionEvent e) {
+        {
+            if (e.getSource()==spinButton)
+                theStage.setScene(spinScene);
+            else
+                theStage.setScene(scene1);
+        }
     }
 }

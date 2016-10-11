@@ -49,6 +49,7 @@ public class ChoreWheel extends AutoScalingStackPane {
         choreArcs.add(new ChoreArc(x1, y1, r1, r1, 275, 45, Color.YELLOW, "wash7"));
         choreArcs.add(new ChoreArc(x1, y1, r1, r1, 320, 45, Color.MAGENTA, "wash8"));
 
+
         double x2 = 45 * ChoreWheelRun.scale;
         double y2 = 60 * ChoreWheelRun.scale;
         double r2 = 70 * ChoreWheelRun.scale;
