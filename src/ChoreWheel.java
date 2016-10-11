@@ -34,7 +34,7 @@ public class ChoreWheel extends AutoScalingStackPane {
         populateChores();
     }
 
-    private void populateChores() { //fixme
+    protected void populateChores() { //fixme
 
         setNames();
         setChores();

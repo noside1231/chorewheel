@@ -35,8 +35,10 @@ public class MainMenu extends FlowPane {
 
     public void ButtonClicked(ActionEvent e) {
         {
-            if (e.getSource()==spinButton)
+            if (e.getSource()==spinButton) {
+                run.wheel.populateChores();
                 run.theStage.setScene(run.spinScene);
+            }
             else if(e.getSource()==configButton)
                 run.theStage.setScene(run.configScene);
         }

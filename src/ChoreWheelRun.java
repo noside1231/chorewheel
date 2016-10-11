@@ -20,7 +20,7 @@ public class ChoreWheelRun extends Application {
     private boolean gameOver = false;
     public static final double width = (int) (160 * scale);
     public static final double height = (int) (175  * scale);
-    private ChoreWheel wheel;
+    protected ChoreWheel wheel;
 
     private MainMenu menu;
     private Config config;
