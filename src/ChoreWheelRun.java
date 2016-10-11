@@ -30,10 +30,7 @@ public class ChoreWheelRun extends Application {
     protected Stage theStage;
 
     Button spinButton, configButton;
-    Label lblscene1, lblscene2;
-    FlowPane pane1, pane2;
-    Scene scene1, scene2;
-
+    Button spinBackButton;
 
     public void start(Stage theStage) throws URISyntaxException, FileNotFoundException {
         theStage.setTitle("Chore Wheel #LIT");
@@ -47,13 +44,13 @@ public class ChoreWheelRun extends Application {
         configScene = new Scene(config, width, height, Color.WHITE);
         canvas = new Canvas(width, height);
 
-        //pane1.getChildren().addAll(lblscene1,spinButton, configButton);
-        //pane2.getChildren().addAll(lblscene2, configButton);
+        spinBackButton = new Button("Back");
 
         canvas.setCacheHint(CacheHint.SPEED);
         wheel.setCacheHint(CacheHint.SPEED);
 
         wheel.getChildren().add(canvas);
+        wheel.getChildren().add(spinBackButton);
         g = canvas.getGraphicsContext2D();
         this.theStage = theStage;
         wheel.addEventHandlers();
@@ -97,8 +94,6 @@ public class ChoreWheelRun extends Application {
         {
             if (e.getSource()==spinButton)
                 theStage.setScene(spinScene);
-            else
-                theStage.setScene(scene1);
         }
     }
 }
