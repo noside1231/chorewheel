@@ -21,10 +21,12 @@ public class ChoreWheelRun extends Application {
     public static final double height = (int) (185  * scale);
     private ChoreWheel wheel;
     private MainMenu menu;
+    private Config config;
     private Canvas canvas;
     private GraphicsContext g;
     protected Scene spinScene;
-    private Scene mainMenuScene;
+    protected Scene mainMenuScene;
+    protected Scene configScene;
     protected Stage theStage;
 
     Button spinButton, configButton;
@@ -38,9 +40,11 @@ public class ChoreWheelRun extends Application {
 
         wheel = new ChoreWheel(this);
         menu = new MainMenu(this);
+        config = new Config(this);
 
         spinScene = new Scene(wheel, width, height, Color.WHITE);
         mainMenuScene = new Scene(menu, width,height, Color.WHITE);
+        configScene = new Scene(config, width, height, Color.WHITE);
         canvas = new Canvas(width, height);
 
         //pane1.getChildren().addAll(lblscene1,spinButton, configButton);
