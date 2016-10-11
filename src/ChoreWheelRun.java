@@ -18,8 +18,8 @@ import java.net.URISyntaxException;
 public class ChoreWheelRun extends Application {
     public static double scale = 3;
     private boolean gameOver = false;
-    public static final double width = (int) (277.5 * scale);
-    public static final double height = (int) (185  * scale);
+    public static final double width = (int) (160 * scale);
+    public static final double height = (int) (175  * scale);
     private ChoreWheel wheel;
     private Canvas canvas;
     private GraphicsContext g;

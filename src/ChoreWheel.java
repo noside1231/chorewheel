@@ -24,7 +24,8 @@ public class ChoreWheel extends AutoScalingStackPane {
     private double angularVelSmall = -20;
     private double angularAccSmall = .05;
     private boolean wheelIsSpinning;
-    private Color color;
+    private ChoreArc pointedAt;
+    private double angle = 0;
 
     public ChoreWheel(ChoreWheelRun choreWheelRun) {
         setAutoScale(AutoScale.FILL);
@@ -33,7 +34,6 @@ public class ChoreWheel extends AutoScalingStackPane {
         pin = new ChorePin();
         run = choreWheelRun;
         populateChores();
-        color = Color.RED;
     }
 
     private void populateChores() { //fixme
@@ -41,7 +41,9 @@ public class ChoreWheel extends AutoScalingStackPane {
         double y1 = 20 * ChoreWheelRun.scale;
         double r1 = 150 * ChoreWheelRun.scale;
         choreArcs.add(new ChoreArc(x1, y1, r1, r1, 5, 45, Color.GREEN, "wash1"));
-        choreArcs.add(new ChoreArc(x1, y1, r1, r1, 50, 45, Color.RED, "wash2"));
+        ChoreArc arc = new ChoreArc(x1, y1, r1, r1, 50, 45, Color.RED, "wash2");
+        pointedAt = arc;
+        choreArcs.add(arc);
         choreArcs.add(new ChoreArc(x1, y1, r1, r1, 95, 45, Color.BLUE, "wash3"));
         choreArcs.add(new ChoreArc(x1, y1, r1, r1, 140, 45, Color.CYAN, "wash4"));
         choreArcs.add(new ChoreArc(x1, y1, r1, r1, 185, 45, Color.PINK, "wash5"));
@@ -70,9 +72,6 @@ public class ChoreWheel extends AutoScalingStackPane {
             choreArc.paint(g);
         }
         pin.paint(g);
-
-        g.setFill(Color.BLACK);
-        g.fillRect(80 * ChoreWheelRun.scale, 40 * ChoreWheelRun.scale, 1, 1);
     }
 
     public void update() {
@@ -82,11 +81,11 @@ public class ChoreWheel extends AutoScalingStackPane {
     }
 
     private void checkCollision() {
-        for (ChoreArc choreArc : choreArcs) {
-            if(choreArc.getShape().getBoundsInParent().intersects(new Rectangle(pin.getColorSamplePoint().getX(), pin.getColorSamplePoint().getY(), 2, 2).getBoundsInParent())) {
-                if(color != choreArc.getColor()) {
+        for (ChoreArc arc : choreArcs) {
+            if(arc.intersects(angle)) {
+                if(!pointedAt.equals(arc)) {
                     pin.hit(PI/20);
-                    color = choreArc.getColor();
+                    pointedAt = arc;
                 }
             }
         }

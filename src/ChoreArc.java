@@ -8,8 +8,6 @@ import javafx.scene.shape.Line;
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
-import static java.lang.StrictMath.sqrt;
-import static sun.swing.SwingUtilities2.getFontMetrics;
 
 public class ChoreArc {
     private double x, y;
@@ -71,5 +69,9 @@ public class ChoreArc {
 
     public void setDispTheta(double dispTheta) {
         this.dispTheta = dispTheta;
+    }
+
+    public boolean intersects(double ang) {
+        return (ang >= start && ang <= start+extent);
     }
 }
