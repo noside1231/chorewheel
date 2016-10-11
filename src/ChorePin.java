@@ -14,7 +14,7 @@ public class ChorePin {
     private double angularVel = 0;
     private double angularAcc = 0;
     private double angularAccVal = PI/300;
-    private boolean isHit = true;
+    private boolean isHit = false;
 
     public ChorePin() {
         hit(PI / 20);

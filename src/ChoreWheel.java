@@ -1,11 +1,7 @@
+import datastructures.Entity;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.BoxBlur;
-import javafx.scene.effect.Effect;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Affine;
 
 import java.util.ArrayList;
 import static java.lang.Math.PI;
@@ -26,6 +22,9 @@ public class ChoreWheel extends AutoScalingStackPane {
     private boolean wheelIsSpinning;
     private ChoreArc pointedAt;
 
+    private ArrayList<Entity> names;
+    private ArrayList<Entity> chores;
+
     public ChoreWheel(ChoreWheelRun choreWheelRun) {
         setAutoScale(AutoScale.FILL);
         choreArcs = new ArrayList<>();
@@ -36,32 +35,35 @@ public class ChoreWheel extends AutoScalingStackPane {
     }
 
     private void populateChores() { //fixme
+
+        setNames();
+        setChores();
+
+        double largeExtent = 360/chores.size();
+        double smallExtent = 360/names.size();
+
         double x1 = 5 * ChoreWheelRun.scale;
         double y1 = 20 * ChoreWheelRun.scale;
         double r1 = 150 * ChoreWheelRun.scale;
-        choreArcs.add(new ChoreArc(x1, y1, r1, r1, 5, 45, Color.GREEN, "wash1"));
-        ChoreArc arc = new ChoreArc(x1, y1, r1, r1, 50, 45, Color.RED, "wash2");
-        pointedAt = arc;
-        choreArcs.add(arc);
-        choreArcs.add(new ChoreArc(x1, y1, r1, r1, 95, 45, Color.BLUE, "wash3"));
-        choreArcs.add(new ChoreArc(x1, y1, r1, r1, 140, 45, Color.CYAN, "wash4"));
-        choreArcs.add(new ChoreArc(x1, y1, r1, r1, 185, 45, Color.PINK, "wash5"));
-        choreArcs.add(new ChoreArc(x1, y1, r1, r1, 230, 45, Color.ORANGE, "wash6"));
-        choreArcs.add(new ChoreArc(x1, y1, r1, r1, 275, 45, Color.YELLOW, "wash7"));
-        choreArcs.add(new ChoreArc(x1, y1, r1, r1, 320, 45, Color.MAGENTA, "wash8"));
 
+        double start = 5;
+        for(int i = 0; i < chores.size(); i++) {
+
+            choreArcs.add(new ChoreArc(x1, y1, r1, r1, start, largeExtent, chores.get(i)));
+            start+=largeExtent;
+
+        }
 
         double x2 = 45 * ChoreWheelRun.scale;
         double y2 = 60 * ChoreWheelRun.scale;
         double r2 = 70 * ChoreWheelRun.scale;
-        choreArcsSmall.add(new ChoreArc(x2, y2, r2, r2, 5 + 15, 45, Color.GREEN, roommates[0]));
-        choreArcsSmall.add(new ChoreArc(x2, y2, r2, r2, 50 + 15, 45, Color.RED, roommates[1]));
-        choreArcsSmall.add(new ChoreArc(x2, y2, r2, r2, 95 + 15, 45, Color.BLUE, roommates[2]));
-        choreArcsSmall.add(new ChoreArc(x2, y2, r2, r2, 140 + 15, 45, Color.CYAN, roommates[3]));
-        choreArcsSmall.add(new ChoreArc(x2, y2, r2, r2, 185 + 15, 45, Color.PINK, roommates[4]));
-        choreArcsSmall.add(new ChoreArc(x2, y2, r2, r2, 230 + 15, 45, Color.ORANGE, roommates[5]));
-        choreArcsSmall.add(new ChoreArc(x2, y2, r2, r2, 275 + 15, 45, Color.YELLOW, roommates[6]));
-        choreArcsSmall.add(new ChoreArc(x2, y2, r2, r2, 320 + 15, 45, Color.MAGENTA, roommates[7]));
+
+        start = 20;
+        for(int i = 0; i < names.size(); i++) {
+            choreArcsSmall.add(new ChoreArc(x2, y2, r2, r2, start, smallExtent, names.get(i)));
+            start+=smallExtent;
+        }
+
     }
 
     public void render(GraphicsContext g) {
@@ -81,13 +83,16 @@ public class ChoreWheel extends AutoScalingStackPane {
     }
 
     private void checkCollision() {
+
         for (ChoreArc arc : choreArcs) {
              if(arc.intersects()) {
-                if(!pointedAt.equals(arc)) {
-                    pin.hit(PI/20);
-                    pointedAt = arc;
-                }
-            } //edison is lit siick tubular
+                 if (pointedAt == null) {
+                     pointedAt = arc;
+                 } else if(!pointedAt.equals(arc)) {
+                     pin.hit(PI/20);
+                     pointedAt = arc;
+                 }
+             }
         }
     }
 
@@ -132,5 +137,14 @@ public class ChoreWheel extends AutoScalingStackPane {
         rescale();
         render(run.getGlassG());
         update();
+    }
+
+    public void setNames() {
+        names = run.getConfig().getNames();
+    }
+
+    public void setChores() {
+        chores = run.getConfig().getChores();
+
     }
 }

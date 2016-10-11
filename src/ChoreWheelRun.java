@@ -21,6 +21,7 @@ public class ChoreWheelRun extends Application {
     public static final double width = (int) (160 * scale);
     public static final double height = (int) (175  * scale);
     private ChoreWheel wheel;
+
     private MainMenu menu;
     private Config config;
     private Canvas canvas;
@@ -30,15 +31,16 @@ public class ChoreWheelRun extends Application {
     protected Scene configScene;
     protected Stage theStage;
 
-    Button spinButton;
     Button spinBackButton;
 
     public void start(Stage theStage) throws URISyntaxException, FileNotFoundException {
-        theStage.setTitle("Chore Wheel #LIT");
+        theStage.setTitle("datastructures.Chore Wheel #LIT");
 
+
+        config = new Config(this);
         wheel = new ChoreWheel(this);
         menu = new MainMenu(this);
-        config = new Config(this);
+
 
         spinScene = new Scene(wheel, width, height, Color.WHITE);
         mainMenuScene = new Scene(menu, width,height, Color.WHITE);
@@ -104,5 +106,17 @@ public class ChoreWheelRun extends Application {
                 wheel.requestFocus();
                 theStage.setScene(mainMenuScene);
         }
+    }
+
+    public ChoreWheel getWheel() {
+        return wheel;
+    }
+
+    public MainMenu getMenu() {
+        return menu;
+    }
+
+    public Config getConfig() {
+        return config;
     }
 }

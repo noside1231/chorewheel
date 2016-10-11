@@ -1,3 +1,4 @@
+import datastructures.Entity;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -17,13 +18,13 @@ public class ChoreArc {
     private String name;
     private double dispTheta;
 
-    public ChoreArc(double x, double y, double w, double h, double start, double extent, Color color, String name) {
+    public ChoreArc(double x, double y, double w, double h, double start, double extent, Entity entity) {
         this.x = x; this.y = y;
         this.w = w; this.h = h;
         this.start = start;
         this.extent = extent;
-        this.color = color;
-        this.name = name;
+        this.color = entity.getColor();
+        this.name = entity.getName();
     }
 
     public Color getColor() {

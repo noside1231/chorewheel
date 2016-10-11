@@ -1,2 +1,2 @@
 # chorewheel
-Chore Wheel for Apartment
+datastructures.Chore Wheel for Apartment
