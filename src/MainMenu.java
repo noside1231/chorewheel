@@ -7,12 +7,12 @@ import javafx.scene.layout.FlowPane;
 /**
  * Created by Edison on 10/10/16.
  */
+
 public class MainMenu extends FlowPane {
 
     private ChoreWheelRun run;
 
     private Button spinButton, configButton;
-    private Label lblscene1, lblscene2;
 
 
     MainMenu(ChoreWheelRun choreWheelRun) {
@@ -22,7 +22,6 @@ public class MainMenu extends FlowPane {
         configButton = new Button("Config");
         spinButton.setOnAction(e -> ButtonClicked(e));
         configButton.setOnAction(e -> ButtonClicked(e));
-        lblscene1 = new Label("Main Menu");
 
         setVgap(10);
         setHgap(10);
@@ -38,6 +37,8 @@ public class MainMenu extends FlowPane {
         {
             if (e.getSource()==spinButton)
                 run.theStage.setScene(run.spinScene);
+            else if(e.getSource()==configButton)
+                run.theStage.setScene(run.configScene);
         }
     }
 
