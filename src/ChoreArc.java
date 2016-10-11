@@ -71,7 +71,7 @@ public class ChoreArc {
         this.dispTheta = dispTheta;
     }
 
-    public boolean intersects(double ang) {
-        return (ang >= start && ang <= start+extent);
+    public boolean intersects() {
+        return 180 >= (start+dispTheta)%360 && 180 <= (start+extent+dispTheta)%360;
     }
 }

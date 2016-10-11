@@ -25,7 +25,6 @@ public class ChoreWheel extends AutoScalingStackPane {
     private double angularAccSmall = .05;
     private boolean wheelIsSpinning;
     private ChoreArc pointedAt;
-    private double angle = 0;
 
     public ChoreWheel(ChoreWheelRun choreWheelRun) {
         setAutoScale(AutoScale.FILL);
@@ -83,7 +82,7 @@ public class ChoreWheel extends AutoScalingStackPane {
 
     private void checkCollision() {
         for (ChoreArc arc : choreArcs) {
-            if(arc.intersects(angle)) {
+             if(arc.intersects()) {
                 if(!pointedAt.equals(arc)) {
                     pin.hit(PI/20);
                     pointedAt = arc;
