@@ -1,9 +1,13 @@
 import datastructures.Entity;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -13,11 +17,13 @@ import java.util.ArrayList;
  * Created by Edison on 10/10/16.
  */
 
-public class Config extends FlowPane{
+public class Config extends GridPane{
 
     private ChoreWheelRun run;
 
     private Button saveButton, backButton;
+
+    private Label nameL, choreL;
 
     private TextField[] nameField;
     private TextField[] choreField;
@@ -29,37 +35,42 @@ public class Config extends FlowPane{
 
         run = choreWheelRun;
 
-
-        names = new ArrayList<Entity>();
-        chores = new ArrayList<Entity>();
+        names = new ArrayList<>();
+        chores = new ArrayList<>();
 
         saveButton = new Button("Apply");
         backButton = new Button("Back");
+
+        nameL = new Label("Name");
+        choreL = new Label("Chore");
 
         choreField = new TextField[10];
         nameField = new TextField[10];
 
         setVgap(10);
         setHgap(10);
-        setAlignment(Pos.CENTER);
+        setPadding(new Insets(20));
 
-        getChildren().add(backButton);
+        add(nameL, 0,1);
+        add(choreL,1,1);
+
+        add(backButton, 0,12);
         for(int i = 0; i < nameField.length; i++) {
-            if(i == 0)
-                nameField[i] = new TextField("Name");
-            else
+//            if(i == 0)
+//                nameField[i] = new TextField("Name");
+//            else
                 nameField[i] = new TextField();
 
-            getChildren().add(nameField[i]);
+            add(nameField[i], 0,i+2);
         }
         for(int i = 0; i < choreField.length; i++) {
-            if(i==0)
-                choreField[i] = new TextField("Chore");
-            else
+//            if(i==0)
+//                choreField[i] = new TextField("Chore");
+//            else
                 choreField[i] = new TextField();
-            getChildren().add(choreField[i]);
+            add(choreField[i],1,i+2);
         }
-        getChildren().add(saveButton);
+        add(saveButton,1,12);
 
         saveButton.setOnAction(e -> ButtonClicked(e));
         backButton.setOnAction(e -> ButtonClicked(e));
@@ -90,6 +101,10 @@ public class Config extends FlowPane{
                 chores.add(new Entity(Color.WHITE, String.valueOf(choreField[i].getText())));
             }
         }
+
+
+
+
     }
 
     public ArrayList<Entity> getNames() {

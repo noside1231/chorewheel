@@ -36,8 +36,16 @@ public class MainMenu extends FlowPane {
     public void ButtonClicked(ActionEvent e) {
         {
             if (e.getSource()==spinButton) {
-                run.wheel.populateChores();
-                run.theStage.setScene(run.spinScene);
+                run.wheel.setNames();
+                run.wheel.setChores();
+
+                if(run.wheel.getNames().isEmpty() || run.wheel.getChores().isEmpty()) {
+                    System.out.println("NO ENTITIES");
+                }
+                else {
+                    run.wheel.populateChores();
+                    run.theStage.setScene(run.spinScene);
+                }
             }
             else if(e.getSource()==configButton)
                 run.theStage.setScene(run.configScene);

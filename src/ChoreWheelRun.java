@@ -38,9 +38,8 @@ public class ChoreWheelRun extends Application {
 
 
         config = new Config(this);
-        wheel = new ChoreWheel(this);
         menu = new MainMenu(this);
-
+        wheel = new ChoreWheel(this);
 
         spinScene = new Scene(wheel, width, height, Color.WHITE);
         mainMenuScene = new Scene(menu, width,height, Color.WHITE);
@@ -50,7 +49,6 @@ public class ChoreWheelRun extends Application {
         spinBackButton = new Button("Back");
 
         spinBackButton.setOnAction(e -> ButtonClicked(e));
-
 
         canvas.setCacheHint(CacheHint.SPEED);
         wheel.setCacheHint(CacheHint.SPEED);
