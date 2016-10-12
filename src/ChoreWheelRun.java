@@ -34,7 +34,7 @@ public class ChoreWheelRun extends Application {
     Button spinBackButton;
 
     public void start(Stage theStage) throws URISyntaxException, FileNotFoundException {
-        theStage.setTitle("datastructures.Chore Wheel #LIT");
+        theStage.setTitle("Chore Wheel #LIT");
 
 
         config = new Config(this);
