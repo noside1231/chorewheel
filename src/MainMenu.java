@@ -2,7 +2,6 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -55,7 +54,7 @@ public class MainMenu extends GridPane {
     }
 
 
-    public void ButtonClicked(ActionEvent e) {
+    private void ButtonClicked(ActionEvent e) {
         {
             if (e.getSource()==spinButton) {
                 run.wheel.setNames();

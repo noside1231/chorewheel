@@ -13,7 +13,6 @@ public class ChoreWheel extends AutoScalingStackPane {
     private ArrayList<ChoreArc> choreArcs;
     private ArrayList<ChoreArc> choreArcsSmall;
     private ChorePin pin;
-    private String[] roommates = { "Alex", "Adrianna", "Ariana", "Crystal", "Tim", "Netty", "Edison", "Mathew" };
     private double theta = 0;
     private double angularVel = 20;
     private double angularAcc = -.05;
