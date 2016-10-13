@@ -1,9 +1,7 @@
 import static java.lang.Math.*;
 
-import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.ArcType;
-import javafx.scene.shape.Polygon;
 import javafx.scene.transform.Affine;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -15,7 +13,6 @@ public class ChorePin {
     private double angularAcc = 0;
     private double angularAccVal = PI/300;
     private boolean isHit = false;
-    private boolean hit;
 
     public ChorePin() {
         hit(PI / 20);
@@ -88,6 +85,6 @@ public class ChorePin {
     }
 
     public boolean isHit() {
-        return hit;
+        return isHit;
     }
 }

@@ -2,9 +2,6 @@ package datastructures;
 
 import javafx.scene.paint.Color;
 
-/**
- * Created by Edison on 10/10/16.
- */
 public class Entity {
 
     Color color;

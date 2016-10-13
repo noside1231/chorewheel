@@ -6,10 +6,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
-/**
- * Created by Edison on 10/10/16.
- */
-
 public class MainMenu extends GridPane {
 
     private ChoreWheelRun run;
