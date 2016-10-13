@@ -64,8 +64,14 @@ public class ChoreWheel extends AutoScalingStackPane {
         for (ChoreArc choreArc : choreArcs) {
             choreArc.paint(g);
         }
+        for (ChoreArc choreArc : choreArcs) {
+            choreArc.paintName(g);
+        }
         for (ChoreArc choreArc : choreArcsSmall) {
             choreArc.paint(g);
+        }
+        for (ChoreArc choreArc : choreArcsSmall) {
+            choreArc.paintName(g);
         }
         pin.paint(g);
     }
@@ -77,33 +83,26 @@ public class ChoreWheel extends AutoScalingStackPane {
 
 //        System.out.println("ANGVEL: " + angularVel);
 
-        if(hasBeenSpun == true) {
-
-            if( (int)angularVel == 0) {
-
+        if(hasBeenSpun) {
+            if((int)angularVel == 0 && !pin.isHit()) {
                 System.out.println("Landed on: " + pointedAt.getName());
                 hasBeenSpun = false;
-
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 chores.remove(pointedAt.getEntity());
                 choreArcs.clear();
-                System.out.println(choreArcs);
 
+                System.out.println(choreArcs);
                 populateChores();
-
                 System.out.println(choreArcs);
-
-                spin();
-
             }
-
         }
-
-
-
     }
 
     private void checkCollision() {
-
         for (ChoreArc arc : choreArcs) {
              if(arc.intersects()) {
                  if (pointedAt == null) {
@@ -111,7 +110,6 @@ public class ChoreWheel extends AutoScalingStackPane {
                  } else if(!pointedAt.equals(arc)) {
                      pin.hit(PI/20);
                      pointedAt = arc;
-
                  }
              }
         }

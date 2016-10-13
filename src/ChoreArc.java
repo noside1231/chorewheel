@@ -19,6 +19,7 @@ public class ChoreArc {
     public enum ArcSize {
         SMALL,
         BIG;
+
     }
     private Entity entity;
     private double x, y;
@@ -46,11 +47,9 @@ public class ChoreArc {
     public Color getColor() {
         return color;
     }
-
     public Entity getEntity() {
         return entity;
     }
-
     public String getName() {
         return name;
     }
@@ -61,28 +60,23 @@ public class ChoreArc {
 
     public double getTextX(String str) {
         double width = com.sun.javafx.tk.Toolkit.getToolkit().getFontLoader().computeStringWidth(str, new Font(12));
-        return getCenterXBeforeDrawn() - width/2;
+        return -width/2;
     }
 
     public double getTextY(String str) {
-        float height = com.sun.javafx.tk.Toolkit.getToolkit().getFontLoader().getFontMetrics(new Font(12)).getLineHeight();
-        return getCenterYBeforeDrawn() - getRadius()*sin(extent/2) + height/2;
+        if(size == ArcSize.BIG) {
+            return 50;
+        } else {
+            return 200;
+        }
     }
 
     private double getCenterX() {
         return x + w/2;
     }
 
-    public double getCenterXBeforeDrawn() {
-        return w/2;
-    }
-
     private double getCenterY() {
         return y + h/2;
-    }
-
-    public double getCenterYBeforeDrawn() {
-        return h/2;
     }
 
     private double getRadius() {
@@ -90,22 +84,35 @@ public class ChoreArc {
     }
 
     public void paint(GraphicsContext g) {
-        g.save();
         Affine trans = new Affine();
-        trans.append(Affine.translate(x, y));
-        trans.append(Affine.rotate(start + dispTheta, w/2, h/2));
+        trans.append(Affine.rotate(-start - dispTheta, getCenterX(), getCenterY()));
         g.setTransform(trans);
 
         g.setFill(color);
-        g.fillArc(0, 0, w, h, -extent/2, (int)extent, ArcType.ROUND);
+        g.fillArc(x, y, w, h, -extent/2, (int)extent, ArcType.ROUND);
         g.setStroke(Color.BLACK);
         g.setLineWidth(2);
-        g.strokeArc(0, 0, w, h, -extent/2, (int)extent, ArcType.ROUND);
+        g.strokeArc(x, y, w, h, -extent/2, (int)extent, ArcType.ROUND);
+
+        g.setTransform(new Affine());
+    }
+
+    public void paintName(GraphicsContext g) {
+        Affine trans = new Affine();
+        if((Math.round(360/extent))%2 == 0) {
+            trans.append(Affine.rotate(-(start + dispTheta + 360/4), getCenterX(), getCenterY()));
+        } else if((Math.round(360/extent))%3 == 0){
+            trans.append(Affine.rotate(-(start + dispTheta - 360/4), getCenterX(), getCenterY()));
+        } else if((Math.round(360/extent))%2 != 0){
+            trans.append(Affine.rotate(-(start + dispTheta -360/4), getCenterX(), getCenterY()));
+        }
+        g.setTransform(trans);
 
         g.setFont(new Font(12));
-        g.strokeText(name, getTextX(name), getTextY(name), 60);
-        g.fillText(name, getTextX(name), getTextY(name), 60);
-        g.restore();
+        g.strokeText(name, getTextX(name) + x + w/2, getTextY(name) + h/8, 60);
+        g.fillText(name, getTextX(name) + x + w/2, getTextY(name) + h/8, 60);
+
+        g.setTransform(new Affine());
     }
 
     public void setDispTheta(double dispTheta) {
@@ -113,6 +120,7 @@ public class ChoreArc {
     }
 
     public boolean intersects() {
-        return 180 >= (start+dispTheta)%360 && 180 <= (start+extent+dispTheta)%360;
+        return start+dispTheta%360 < 360 && start+extent+dispTheta%360 > 360;
     }
+
 }

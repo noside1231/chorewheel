@@ -15,6 +15,7 @@ public class ChorePin {
     private double angularAcc = 0;
     private double angularAccVal = PI/300;
     private boolean isHit = false;
+    private boolean hit;
 
     public ChorePin() {
         hit(PI / 20);
@@ -80,5 +81,13 @@ public class ChorePin {
         g.fillArc(80*ChoreWheelRun.scale - r/2, 5.5*ChoreWheelRun.scale - r/2, r, r, 0, 360, ArcType.ROUND);
         g.setStroke(Color.BLACK);
         g.strokeArc(80*ChoreWheelRun.scale - r/2, 5.5*ChoreWheelRun.scale - r/2, r, r, 0, 360, ArcType.OPEN);
+    }
+
+    public double getAngularVel() {
+        return angularVel;
+    }
+
+    public boolean isHit() {
+        return hit;
     }
 }
