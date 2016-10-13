@@ -31,11 +31,11 @@ public class ChoreWheelRun extends Application {
     protected Scene configScene;
     protected Stage theStage;
 
-    Button spinBackButton;
+    private Button spinBackButton;
 
     public void start(Stage theStage) throws URISyntaxException, FileNotFoundException {
-        theStage.setTitle("Chore Wheel #LIT");
 
+        theStage.setTitle("Chore Wheel #LIT");
 
         config = new Config(this);
         menu = new MainMenu(this);
