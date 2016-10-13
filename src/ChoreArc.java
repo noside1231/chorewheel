@@ -17,6 +17,7 @@ public class ChoreArc {
     private Color color;
     private String name;
     private double dispTheta;
+    private Entity entity;
 
     public ChoreArc(double x, double y, double w, double h, double start, double extent, Entity entity) {
         this.x = x; this.y = y;
@@ -25,6 +26,7 @@ public class ChoreArc {
         this.extent = extent;
         this.color = entity.getColor();
         this.name = entity.getName();
+        this.entity = entity;
     }
 
     public Color getColor() {
@@ -34,6 +36,8 @@ public class ChoreArc {
     public String getName() {
         return name;
     }
+
+    public Entity getEntity() { return entity; }
 
     public Arc getShape() {
         return new Arc(x + w/2, y + h/2, w/2, h/2, start + dispTheta, extent);

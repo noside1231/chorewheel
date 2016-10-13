@@ -66,7 +66,7 @@ public class Config extends GridPane{
 
         add(backButton, 0,12);
         for(int i = 0; i < nameField.length; i++) {
-            nameField[i] = new TextField();
+            nameField[i] = new TextField(i+"");
             nameField[i].setPrefWidth(150);
             add(nameField[i], 0,i+2);
 
@@ -75,7 +75,7 @@ public class Config extends GridPane{
             add(nameColor[i], 1, i+2);
         }
         for(int i = 0; i < choreField.length; i++) {
-            choreField[i] = new TextField();
+            choreField[i] = new TextField(i+"");
             choreField[i].setPrefWidth(150);
             add(choreField[i],2,i+2);
 
@@ -129,6 +129,10 @@ public class Config extends GridPane{
 
     public ArrayList<Entity> getChores() {
         return chores;
+    }
+
+    public void setNames() {
+        names = run.getWheel().getNames();
     }
 
 }
