@@ -20,7 +20,6 @@ public class ChoreWheel extends AutoScalingStackPane {
     private double angularAccSmall = .05;
     private boolean wheelIsSpinning;
     private ChoreArc pointedAt;
-
     private ArrayList<Entity> names;
     private ArrayList<Entity> chores;
 

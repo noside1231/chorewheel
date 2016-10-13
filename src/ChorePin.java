@@ -57,7 +57,6 @@ public class ChorePin {
 
     public void paint(GraphicsContext g) {
         updatePhysics();
-
         g.save();
         {
             Affine trans = new Affine();
