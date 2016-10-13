@@ -3,7 +3,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import static java.lang.Math.PI;
 import static java.lang.Math.random;
@@ -34,31 +33,26 @@ public class ChoreWheel extends AutoScalingStackPane {
         run = choreWheelRun;
     }
 
-    protected void populateChores() { //fixme
+    protected void populateChores() {
+        double largeExtent = 360/chores.size();
+        double smallExtent = 360/names.size();
 
-            double largeExtent = 360 / chores.size();
-            double smallExtent = 360 / names.size();
+        double x1 = 5 * ChoreWheelRun.scale;
+        double y1 = 20 * ChoreWheelRun.scale;
 
-            double x1 = 5 * ChoreWheelRun.scale;
-            double y1 = 20 * ChoreWheelRun.scale;
-            double r1 = 150 * ChoreWheelRun.scale;
+        double start = 5;
+        for (int i = 0; i < chores.size(); i++) {
+            choreArcs.add(new ChoreArc(x1, y1, start, largeExtent, chores.get(i), ChoreArc.ArcSize.BIG));
+            start += largeExtent;
+        }
 
-            double start = 5;
-            for (int i = 0; i < chores.size(); i++) {
+        double x2 = 45 * ChoreWheelRun.scale;
+        double y2 = 60 * ChoreWheelRun.scale;
 
-                choreArcs.add(new ChoreArc(x1, y1, r1, r1, start, largeExtent, chores.get(i)));
-                start += largeExtent;
-
-            }
-
-            double x2 = 45 * ChoreWheelRun.scale;
-            double y2 = 60 * ChoreWheelRun.scale;
-            double r2 = 70 * ChoreWheelRun.scale;
-
-            start = 20;
-            for (int i = 0; i < names.size(); i++) {
-                choreArcsSmall.add(new ChoreArc(x2, y2, r2, r2, start, smallExtent, names.get(i)));
-                start += smallExtent;
+        start = 20;
+        for (int i = 0; i < names.size(); i++) {
+            choreArcsSmall.add(new ChoreArc(x2, y2, start, smallExtent, names.get(i), ChoreArc.ArcSize.SMALL));
+            start += smallExtent;
         }
     }
 
@@ -80,7 +74,6 @@ public class ChoreWheel extends AutoScalingStackPane {
     }
 
     private void checkCollision() {
-
         for (ChoreArc arc : choreArcs) {
              if(arc.intersects()) {
                  if (pointedAt == null) {
@@ -147,6 +140,7 @@ public class ChoreWheel extends AutoScalingStackPane {
     public ArrayList<Entity> getChores() {
         return chores;
     }
+
     public ArrayList<Entity> getNames() {
         return names;
     }
