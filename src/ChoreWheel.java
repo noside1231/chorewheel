@@ -3,6 +3,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import static java.lang.Math.PI;
 import static java.lang.Math.random;
@@ -13,13 +14,16 @@ public class ChoreWheel extends AutoScalingStackPane {
     private ArrayList<ChoreArc> choreArcsSmall;
     private ChorePin pin;
     private double theta = 0;
-    private double angularVel = 20;
+    private double angularVel = 0;
     private double angularAcc = -.05;
     private double thetaSmall = 0;
     private double angularVelSmall = -20;
     private double angularAccSmall = .05;
+
     private boolean wheelIsSpinning;
+    private boolean hasBeenSpun = false;
     private ChoreArc pointedAt;
+
     private ArrayList<Entity> names;
     private ArrayList<Entity> chores;
 
@@ -32,8 +36,9 @@ public class ChoreWheel extends AutoScalingStackPane {
     }
 
     protected void populateChores() {
-        double largeExtent = 360/chores.size();
-        double smallExtent = 360/names.size();
+
+            double largeExtent = 360. / chores.size();
+            double smallExtent = 360. / names.size();
 
         double x1 = 5 * ChoreWheelRun.scale;
         double y1 = 20 * ChoreWheelRun.scale;
@@ -69,9 +74,36 @@ public class ChoreWheel extends AutoScalingStackPane {
         updatePhysics();
         applyRotation();
         checkCollision();
+
+//        System.out.println("ANGVEL: " + angularVel);
+
+        if(hasBeenSpun == true) {
+
+            if( (int)angularVel == 0) {
+
+                System.out.println("Landed on: " + pointedAt.getName());
+                hasBeenSpun = false;
+
+                chores.remove(pointedAt.getEntity());
+                choreArcs.clear();
+                System.out.println(choreArcs);
+
+                populateChores();
+
+                System.out.println(choreArcs);
+
+                spin();
+
+            }
+
+        }
+
+
+
     }
 
     private void checkCollision() {
+
         for (ChoreArc arc : choreArcs) {
              if(arc.intersects()) {
                  if (pointedAt == null) {
@@ -79,9 +111,14 @@ public class ChoreWheel extends AutoScalingStackPane {
                  } else if(!pointedAt.equals(arc)) {
                      pin.hit(PI/20);
                      pointedAt = arc;
+
                  }
              }
         }
+    }
+
+    public void removeArc() {
+
     }
 
     private void updatePhysics() {
@@ -97,6 +134,7 @@ public class ChoreWheel extends AutoScalingStackPane {
 
     private void spin() {
         wheelIsSpinning = true;
+        hasBeenSpun = true;
         angularVel = 15 + random() * 15;
         angularAcc = -.05;
         angularVelSmall = -15 - random() * 15;
@@ -133,6 +171,10 @@ public class ChoreWheel extends AutoScalingStackPane {
 
     public void setChores() {
         chores = run.getConfig().getChores();
+    }
+
+    public boolean isWheelIsSpinning() {
+        return wheelIsSpinning;
     }
 
     public ArrayList<Entity> getChores() {
