@@ -117,10 +117,6 @@ public class ChoreWheel extends AutoScalingStackPane {
         }
     }
 
-    public void removeArc() {
-
-    }
-
     private void updatePhysics() {
         if(angularVel >= 0.1 && wheelIsSpinning) {
             angularVel += angularAcc;
