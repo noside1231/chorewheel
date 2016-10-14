@@ -7,19 +7,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
 public class MainMenu extends GridPane {
-
     private ChoreWheelRun run;
-
     private Button spinButton, configButton;
     private Label warningLabel;
 
-
     MainMenu(ChoreWheelRun choreWheelRun) {
         run = choreWheelRun;
-
         HBox hbox1 = new HBox();
-
-
 
         spinButton = new Button("Spin!");
         configButton = new Button("Config");
@@ -31,10 +25,9 @@ public class MainMenu extends GridPane {
         configButton.setMaxWidth(Double.MAX_VALUE);
 
         hbox1.getChildren().addAll(spinButton, configButton);
-
         hbox1.setSpacing(10);
-        spinButton.setOnAction(e -> ButtonClicked(e));
-        configButton.setOnAction(e -> ButtonClicked(e));
+        spinButton.setOnAction(this::ButtonClicked);
+        configButton.setOnAction(this::ButtonClicked);
 
         setVgap(10);
         setHgap(10);
@@ -43,31 +36,24 @@ public class MainMenu extends GridPane {
         warningLabel.setMaxWidth(100);
         warningLabel.setWrapText(true);
 
-        add(hbox1,0,0);
-        add(warningLabel,0,2);
-
-
+        add(hbox1, 0, 0);
+        add(warningLabel, 0, 2);
     }
 
-
     private void ButtonClicked(ActionEvent e) {
-        {
-            if (e.getSource()==spinButton) {
-                run.wheel.setNames();
-                run.wheel.setChores();
+        if (e.getSource() == spinButton) {
+            run.wheel.setNames();
+            run.wheel.setChores();
 
-                if(run.wheel.getNames().isEmpty() || run.wheel.getChores().isEmpty()) {
-                    warningLabel.setText("Please add at least one name and one chore");
-                }
-                else {
-                    warningLabel.setText("");
-                    run.wheel.populateChores();
-                    run.theStage.setScene(run.spinScene);
-                }
+            if (run.wheel.getNames().isEmpty() || run.wheel.getChores().isEmpty()) {
+                warningLabel.setText("Please add at least one name and one chore");
+            } else {
+                warningLabel.setText("");
+                run.wheel.populateChores();
+                run.theStage.setScene(run.spinScene);
             }
-            else if(e.getSource()==configButton)
-                run.theStage.setScene(run.configScene);
-        }
+        } else if (e.getSource() == configButton)
+            run.theStage.setScene(run.configScene);
     }
 
 }

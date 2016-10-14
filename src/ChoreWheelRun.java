@@ -28,7 +28,6 @@ public class ChoreWheelRun extends Application {
     protected Scene mainMenuScene;
     protected Scene configScene;
     protected Stage theStage;
-
     private Button spinBackButton;
 
     public void start(Stage theStage) throws URISyntaxException, FileNotFoundException {
@@ -61,12 +60,10 @@ public class ChoreWheelRun extends Application {
         this.theStage = theStage;
         wheel.addEventHandlers();
 
-        final long startNanoTime = System.nanoTime();
         AnimationTimer gameLoop = new AnimationTimer() {
             public void handle(long currentNanoTime)
             {
-                double t = (currentNanoTime - startNanoTime) / 1e9;
-                wheel.runGame(t);
+                wheel.runGame();
             }
         };
 
@@ -97,10 +94,9 @@ public class ChoreWheelRun extends Application {
     }
 
     public void ButtonClicked(ActionEvent e) {
-        {
-            if(e.getSource()==spinBackButton)
-                wheel.requestFocus();
-                theStage.setScene(mainMenuScene);
+        if(e.getSource()==spinBackButton) {
+            wheel.requestFocus();
+            theStage.setScene(mainMenuScene);
         }
     }
 

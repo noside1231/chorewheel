@@ -1,7 +1,6 @@
 import datastructures.Entity;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
-
 import java.util.ArrayList;
 import static java.lang.Math.PI;
 import static java.lang.Math.random;
@@ -17,11 +16,10 @@ public class ChoreWheel extends AutoScalingStackPane {
     private double thetaSmall = 0;
     private double angularVelSmall = -20;
     private double angularAccSmall = .05;
-
     private boolean wheelIsSpinning;
     private boolean hasBeenSpun = false;
-    private ChoreArc pointedAt;
-
+    private ChoreArc pointedAtBig;
+    private ChoreArc pointedAtSmall;
     private ArrayList<Entity> names;
     private ArrayList<Entity> chores;
 
@@ -34,29 +32,24 @@ public class ChoreWheel extends AutoScalingStackPane {
     }
 
     protected void populateChores() {
-
-            double largeExtent = 360. / chores.size();
-            double smallExtent = 360. / names.size();
-
+        double largeExtent = 360. / chores.size();
         double x1 = 5 * ChoreWheelRun.scale;
         double y1 = 20 * ChoreWheelRun.scale;
-
         double start = 5;
         for (int i = 0; i < chores.size(); i++) {
             choreArcs.add(new ChoreArc(x1, y1, start, largeExtent, chores.get(i), ChoreArc.ArcSize.BIG));
             start += largeExtent;
         }
 
+        double smallExtent = 360. / names.size();
         double x2 = 45 * ChoreWheelRun.scale;
         double y2 = 60 * ChoreWheelRun.scale;
-
         start = 20;
         for (int i = 0; i < names.size(); i++) {
             choreArcsSmall.add(new ChoreArc(x2, y2, start, smallExtent, names.get(i), ChoreArc.ArcSize.SMALL));
             start += smallExtent;
         }
     }
-
 
     public void render(GraphicsContext g) {
         for (ChoreArc choreArc : choreArcs) {
@@ -79,46 +72,62 @@ public class ChoreWheel extends AutoScalingStackPane {
         applyRotation();
         checkCollision();
 
-//        System.out.println("ANGVEL: " + angularVel);
-
-        if(hasBeenSpun) {
-            if((int)angularVel == 0 && !pin.isHit()) {
-                System.out.println("Landed on: " + pointedAt.getName());
+        if (hasBeenSpun) {
+            if ((int) angularVel == 0 && !pin.isHit()) {
+                check();
+                System.out.println("Landed on: " + pointedAtBig.getName());
                 hasBeenSpun = false;
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                chores.remove(pointedAt.getEntity());
-                choreArcs.clear();
+//                chores.remove(pointedAtBig.getEntity());
+//                choreArcs.clear();
 
-                System.out.println(choreArcs);
-                populateChores();
-                System.out.println(choreArcs);
+//                System.out.println(choreArcs);
+//                populateChores();
+//                System.out.println(choreArcs);
+            }
+        }
+    }
+
+    private void check() {
+        for (ChoreArc arc : choreArcs) {
+            System.out.println("arc " + arc.getName() + ": " + arc.getIntersectStartAngle() + ", " + arc.getIntersectEndAngle());
+             if (arc.intersects()) {
+                 if (pointedAtBig == null) {
+                     pointedAtBig = arc;
+                 } else if (!pointedAtBig.equals(arc)) {
+                    pointedAtBig = arc;
+                }
             }
         }
     }
 
     private void checkCollision() {
         for (ChoreArc arc : choreArcs) {
-             if(arc.intersects()) {
-                 if (pointedAt == null) {
-                     pointedAt = arc;
-                 } else if(!pointedAt.equals(arc)) {
-                     pin.hit(PI/20);
-                     pointedAt = arc;
-                 }
-             }
+            if (arc.intersects()) {
+                if (pointedAtBig == null) {
+                    pointedAtBig = arc;
+                } else if (!pointedAtBig.equals(arc)) {
+                    pin.hit(PI / 20);
+                    pointedAtBig = arc;
+                }
+            }
+        }
+        for (ChoreArc arc : choreArcsSmall) {
+            if (arc.intersects()) {
+                if (pointedAtSmall == null) {
+                    pointedAtSmall = arc;
+                } else if (!pointedAtSmall.equals(arc)) {
+                    pointedAtSmall = arc;
+                }
+            }
         }
     }
 
     private void updatePhysics() {
-        if(angularVel >= 0.1 && wheelIsSpinning) {
+        if (angularVel >= 0.1 && wheelIsSpinning) {
             angularVel += angularAcc;
             theta += angularVel;
         }
-        if(angularVelSmall < -0.1 && wheelIsSpinning) {
+        if (angularVelSmall < -0.1 && wheelIsSpinning) {
             angularVelSmall += angularAccSmall;
             thetaSmall += angularVelSmall;
         }
@@ -128,8 +137,10 @@ public class ChoreWheel extends AutoScalingStackPane {
         wheelIsSpinning = true;
         hasBeenSpun = true;
         angularVel = 15 + random() * 15;
+//        angularVel = 2;
         angularAcc = -.05;
         angularVelSmall = -15 - random() * 15;
+//        angularVelSmall = 2;
         angularAccSmall = .05;
     }
 
@@ -150,7 +161,7 @@ public class ChoreWheel extends AutoScalingStackPane {
         });
     }
 
-    public void runGame(double t) {
+    public void runGame() {
         run.getGlassG().clearRect(0, 0, 1920, 1080);
         rescale();
         render(run.getGlassG());
@@ -163,10 +174,6 @@ public class ChoreWheel extends AutoScalingStackPane {
 
     public void setChores() {
         chores = run.getConfig().getChores();
-    }
-
-    public boolean isWheelIsSpinning() {
-        return wheelIsSpinning;
     }
 
     public ArrayList<Entity> getChores() {

@@ -1,17 +1,18 @@
-import static java.lang.Math.*;
-
 import javafx.geometry.Point2D;
-import javafx.scene.shape.ArcType;
-import javafx.scene.transform.Affine;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.ArcType;
+import javafx.scene.transform.Affine;
+
+import static java.lang.Math.PI;
+import static java.lang.Math.abs;
 
 
 public class ChorePin {
     private double theta = 0;
     private double angularVel = 0;
     private double angularAcc = 0;
-    private double angularAccVal = PI/300;
+    private double angularAccVal = PI / 300;
     private boolean isHit = false;
 
     public ChorePin() {
@@ -35,7 +36,7 @@ public class ChorePin {
             }
             angularVel += angularAcc;
             damp();
-            if (energy() < .4) {
+            if (energy() < .5) {
                 isHit = false;
             }
         }
@@ -46,11 +47,11 @@ public class ChorePin {
     }
 
     private double energy() {
-        return 100*abs(theta%(2*PI)) + 150*abs(angularVel)*abs(angularVel);
+        return 100 * abs(theta % (2 * PI)) + 150 * abs(angularVel) * abs(angularVel);
     }
 
     public Point2D getColorSamplePoint() {
-        return new Point2D(80*ChoreWheelRun.scale, 40*ChoreWheelRun.scale);
+        return new Point2D(80 * ChoreWheelRun.scale, 40 * ChoreWheelRun.scale);
     }
 
     public void paint(GraphicsContext g) {
@@ -60,24 +61,24 @@ public class ChorePin {
             Affine trans = new Affine();
             trans.append(Affine.translate(80 * ChoreWheelRun.scale, 5.5 * ChoreWheelRun.scale));
             trans.append(Affine.scale(10, 10));
-            trans.append(Affine.rotate(theta * 180/PI, 0, 0));
+            trans.append(Affine.rotate(theta * 180 / PI, 0, 0));
             g.setTransform(trans);
 
             g.setFill(Color.GRAY);
             g.setStroke(Color.BLACK);
             g.setLineWidth(0.2);
-            double[] xs = { 0, 1, 1, 1, 2, 0, -2, -1, -1, -1, 0 };
-            double[] ys = { 0, 0, 2, 4, 4, 8,  4,  4,  2,  0, 0 };
+            double[] xs = {0, 1, 1, 1, 2, 0, -2, -1, -1, -1, 0};
+            double[] ys = {0, 0, 2, 4, 4, 8, 4, 4, 2, 0, 0};
             g.fillPolygon(xs, ys, 11);
             g.strokePolygon(xs, ys, 11);
         }
         g.restore();
 
-        double r = 2*ChoreWheelRun.scale;
+        double r = 2 * ChoreWheelRun.scale;
         g.setFill(Color.LIGHTGRAY);
-        g.fillArc(80*ChoreWheelRun.scale - r/2, 5.5*ChoreWheelRun.scale - r/2, r, r, 0, 360, ArcType.ROUND);
+        g.fillArc(80 * ChoreWheelRun.scale - r / 2, 5.5 * ChoreWheelRun.scale - r / 2, r, r, 0, 360, ArcType.ROUND);
         g.setStroke(Color.BLACK);
-        g.strokeArc(80*ChoreWheelRun.scale - r/2, 5.5*ChoreWheelRun.scale - r/2, r, r, 0, 360, ArcType.OPEN);
+        g.strokeArc(80 * ChoreWheelRun.scale - r / 2, 5.5 * ChoreWheelRun.scale - r / 2, r, r, 0, 360, ArcType.OPEN);
     }
 
     public double getAngularVel() {
