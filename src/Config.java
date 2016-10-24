@@ -74,7 +74,13 @@ public class Config extends GridPane{
                 double blue = scan.nextDouble();
                 Color color = getColorFromText(red, green, blue);
                 nameColor[i] = new ColorPicker(color);
-                nameColor[i].getCustomColors().add(color);
+                while(scan.hasNextDouble()) {
+                    red = scan.nextDouble();
+                    green = scan.nextDouble();
+                    blue = scan.nextDouble();
+                    color = getColorFromText(red, green, blue);
+                    nameColor[i].getCustomColors().add(color);
+                }
             } else {
                 nameColor[i] = new ColorPicker();
             }
@@ -102,7 +108,13 @@ public class Config extends GridPane{
                 double blue = scan.nextDouble();
                 Color color = getColorFromText(red, green, blue);
                 choreColor[i] = new ColorPicker(color);
-                choreColor[i].getCustomColors().add(color);
+                while(scan.hasNextDouble()) {
+                    red = scan.nextDouble();
+                    green = scan.nextDouble();
+                    blue = scan.nextDouble();
+                    color = getColorFromText(red, green, blue);
+                    choreColor[i].getCustomColors().add(color);
+                }
             } else {
                 choreColor[i] = new ColorPicker();
             }
@@ -144,15 +156,14 @@ public class Config extends GridPane{
             } else {
                 write.println(nameField[i].getText());
             }
-            if(!nameColor[i].getCustomColors().isEmpty()) {
-                Color color = nameColor[i].getCustomColors().get(nameColor[i].getCustomColors().size() - 1);
-                write.println(color.getRed());
-                write.println(color.getGreen());
-                write.println(color.getBlue());
-            } else {
-                write.println(1);
-                write.println(1);
-                write.println(1);
+            Color color = nameColor[i].getValue();
+            write.println(color.getRed());
+            write.println(color.getGreen());
+            write.println(color.getBlue());
+            for (Color col : nameColor[i].getCustomColors()) {
+                write.println(col.getRed());
+                write.println(col.getGreen());
+                write.println(col.getBlue());
             }
             if(!nameField[i].getText().equals("")) {
                 names.add(new Entity(nameColor[i].getValue(), String.valueOf(nameField[i].getText())));
@@ -166,15 +177,14 @@ public class Config extends GridPane{
             } else {
                 write.println(choreField[i].getText());
             }
-            if(!nameColor[i].getCustomColors().isEmpty()) {
-                Color color = choreColor[i].getCustomColors().get(choreColor[i].getCustomColors().size() - 1);
-                write.println(color.getRed());
-                write.println(color.getGreen());
-                write.println(color.getBlue());
-            } else {
-                write.println(1);
-                write.println(1);
-                write.println(1);
+            Color color = choreColor[i].getValue();
+            write.println(color.getRed());
+            write.println(color.getGreen());
+            write.println(color.getBlue());
+            for (Color col : choreColor[i].getCustomColors()) {
+                write.println(col.getRed());
+                write.println(col.getGreen());
+                write.println(col.getBlue());
             }
             if(!choreField[i].getText().equals("")) {
                 chores.add(new Entity(choreColor[i].getValue(), String.valueOf(choreField[i].getText())));
