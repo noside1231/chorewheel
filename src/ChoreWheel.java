@@ -32,6 +32,9 @@ public class ChoreWheel extends AutoScalingStackPane {
     }
 
     protected void populateChores() {
+        choreArcs.clear();
+        choreArcsSmall.clear();
+
         double largeExtent = 360. / chores.size();
         double x1 = 5 * ChoreWheelRun.scale;
         double y1 = 20 * ChoreWheelRun.scale;
@@ -77,11 +80,11 @@ public class ChoreWheel extends AutoScalingStackPane {
                 check();
                 System.out.println("Landed on: " + pointedAtBig.getName());
                 hasBeenSpun = false;
-//                chores.remove(pointedAtBig.getEntity());
-//                choreArcs.clear();
+                chores.remove(pointedAtBig.getEntity());
+                choreArcs.clear();
 
 //                System.out.println(choreArcs);
-//                populateChores();
+                populateChores();
 //                System.out.println(choreArcs);
             }
         }

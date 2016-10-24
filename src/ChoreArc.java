@@ -1,3 +1,4 @@
+import com.sun.javafx.tk.Toolkit;
 import datastructures.Entity;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -76,7 +77,7 @@ public class ChoreArc {
     }
 
     public double getTextX(String str) {
-        double width = com.sun.javafx.tk.Toolkit.getToolkit().getFontLoader().computeStringWidth(str, new Font(12));
+        double width = Toolkit.getToolkit().getFontLoader().computeStringWidth(str, new Font(12));
         return -width / 2;
     }
 
@@ -84,7 +85,7 @@ public class ChoreArc {
         if (size == ArcSize.BIG) {
             return 50;
         } else {
-            return 200;
+            return 190;
         }
     }
 
@@ -117,6 +118,9 @@ public class ChoreArc {
     public void paintName(GraphicsContext g) {
         Affine trans = new Affine();
         trans.append(Affine.rotate(-(getTextStartAngle()), getCenterX(), getCenterY()));
+        double x1 = -4 + x + w/2;
+        double y1 = getTextY(name) + h/8;
+        trans.append(Affine.rotate(90, x1, y1));
         g.setTransform(trans);
 
         g.setFont(new Font(12));

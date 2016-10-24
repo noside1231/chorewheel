@@ -36,7 +36,7 @@ public class ChorePin {
             }
             angularVel += angularAcc;
             damp();
-            if (energy() < .5) {
+            if (energy() < .6) {
                 isHit = false;
             }
         }

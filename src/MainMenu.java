@@ -52,8 +52,8 @@ public class MainMenu extends GridPane {
                 run.wheel.populateChores();
                 run.theStage.setScene(run.spinScene);
             }
-        } else if (e.getSource() == configButton)
+        } else if (e.getSource() == configButton) {
             run.theStage.setScene(run.configScene);
+        }
     }
-
 }

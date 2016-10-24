@@ -111,5 +111,4 @@ public class ChoreWheelRun extends Application {
     public Config getConfig() {
         return config;
     }
-
 }
