@@ -1,7 +1,12 @@
 import datastructures.Entity;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+
 import static java.lang.Math.PI;
 import static java.lang.Math.random;
 
@@ -22,13 +27,19 @@ public class ChoreWheel extends AutoScalingStackPane {
     private ChoreArc pointedAtSmall;
     private ArrayList<Entity> names;
     private ArrayList<Entity> chores;
+    PrintWriter writer;
 
-    public ChoreWheel(ChoreWheelRun choreWheelRun) {
+    public ChoreWheel(ChoreWheelRun choreWheelRun) throws FileNotFoundException {
         setAutoScale(AutoScale.FILL);
         choreArcs = new ArrayList<>();
         choreArcsSmall = new ArrayList<>();
         pin = new ChorePin();
         run = choreWheelRun;
+        PrintWriter clearer = new PrintWriter(new File(getClass().getResource("choreToName.txt").toExternalForm().substring(5)));
+        clearer.write("");
+        clearer.flush();
+        clearer.close();
+        writer = new PrintWriter(new File(getClass().getResource("choreToName.txt").toExternalForm().substring(5)));
     }
 
     protected void populateChores() {
@@ -70,34 +81,65 @@ public class ChoreWheel extends AutoScalingStackPane {
         pin.paint(g);
     }
 
-    public void update() {
+    public void update() throws FileNotFoundException {
         updatePhysics();
         applyRotation();
         checkCollision();
 
         if (hasBeenSpun) {
-            if ((int) angularVel == 0 && !pin.isHit()) {
+            if ((int) angularVel == 0 && (int) angularVelSmall == 0 && !pin.isHit()) {
                 check();
                 System.out.println("Landed on: " + pointedAtBig.getName());
+                System.out.println("Landed on: " + pointedAtSmall.getName());
                 hasBeenSpun = false;
-                chores.remove(pointedAtBig.getEntity());
-                choreArcs.clear();
 
-//                System.out.println(choreArcs);
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                chores.remove(pointedAtBig.getEntity());
+                names.remove(pointedAtSmall.getEntity());
+
+                writer.print(pointedAtSmall.getEntity().getName() + " ");
+                writer.print(pointedAtBig.getEntity().getName());
+                writer.println();
+                writer.flush();
+
+                choreArcs.clear();
                 populateChores();
-//                System.out.println(choreArcs);
+                spin();
             }
         }
     }
 
     private void check() {
-        for (ChoreArc arc : choreArcs) {
-            System.out.println("arc " + arc.getName() + ": " + arc.getIntersectStartAngle() + ", " + arc.getIntersectEndAngle());
-             if (arc.intersects()) {
-                 if (pointedAtBig == null) {
-                     pointedAtBig = arc;
-                 } else if (!pointedAtBig.equals(arc)) {
-                    pointedAtBig = arc;
+        if(choreArcs.size() == 1) {
+            pointedAtBig = choreArcs.get(0);
+        } else {
+            for (ChoreArc arc : choreArcs) {
+//                System.out.println(arc.getName() + " START: " + arc.getIntersectStartAngle() + "   END: " + arc.getIntersectEndAngle());
+                if (arc.intersects()) {
+                    if (pointedAtBig == null) {
+                        pointedAtBig = arc;
+                    } else if (!pointedAtBig.equals(arc)) {
+                        pointedAtBig = arc;
+                    }
+                }
+            }
+        }
+        if(choreArcsSmall.size() == 1) {
+            pointedAtSmall = choreArcsSmall.get(0);
+        } else {
+            for (ChoreArc arc : choreArcsSmall) {
+//                System.out.println(arc.getName() + " START: " + arc.getIntersectStartAngle() + "   END: " + arc.getIntersectEndAngle());
+                if (arc.intersectsSmall()) {
+                    if (pointedAtSmall == null) {
+                        pointedAtSmall = arc;
+                    } else if (!pointedAtSmall.equals(arc)) {
+                        pointedAtSmall = arc;
+                    }
                 }
             }
         }
@@ -115,7 +157,7 @@ public class ChoreWheel extends AutoScalingStackPane {
             }
         }
         for (ChoreArc arc : choreArcsSmall) {
-            if (arc.intersects()) {
+            if (arc.intersectsSmall()) {
                 if (pointedAtSmall == null) {
                     pointedAtSmall = arc;
                 } else if (!pointedAtSmall.equals(arc)) {
@@ -140,10 +182,8 @@ public class ChoreWheel extends AutoScalingStackPane {
         wheelIsSpinning = true;
         hasBeenSpun = true;
         angularVel = 15 + random() * 15;
-//        angularVel = 2;
         angularAcc = -.05;
         angularVelSmall = -15 - random() * 15;
-//        angularVelSmall = 2;
         angularAccSmall = .05;
     }
 
@@ -168,7 +208,11 @@ public class ChoreWheel extends AutoScalingStackPane {
         run.getGlassG().clearRect(0, 0, 1920, 1080);
         rescale();
         render(run.getGlassG());
-        update();
+        try {
+            update();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setNames() {

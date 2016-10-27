@@ -14,9 +14,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static java.lang.Integer.getInteger;
-import static java.lang.Integer.parseInt;
-
 public class Config extends GridPane{
     private ChoreWheelRun run;
     private Button saveButton, backButton;
@@ -57,6 +54,9 @@ public class Config extends GridPane{
         for(int i = 0; i < nameField.length; i++) {
             if(scan.hasNext()) {
                 String next = scan.next();
+                while(!scan.hasNextDouble()) {
+                    next += " " + scan.next();
+                }
                 if(!next.equals(",")) {
                     nameField[i] = new TextField(next);
                 } else {
@@ -91,6 +91,9 @@ public class Config extends GridPane{
         for(int i = 0; i < choreField.length; i++) {
             if(scan.hasNext()) {
                 String next = scan.next();
+                while(!scan.hasNextDouble()) {
+                    next += " " + scan.next();
+                }
                 if(!next.equals(",")) {
                     choreField[i] = new TextField(next);
                 } else {

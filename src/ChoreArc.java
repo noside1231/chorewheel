@@ -77,13 +77,14 @@ public class ChoreArc {
     }
 
     public double getTextX(String str) {
-        double width = Toolkit.getToolkit().getFontLoader().computeStringWidth(str, new Font(12));
+        double width = Toolkit.getToolkit().getFontLoader().computeStringWidth(str, new Font(16));
         return -width / 2;
     }
 
     public double getTextY(String str) {
+        float height = com.sun.javafx.tk.Toolkit.getToolkit().getFontLoader().getFontMetrics(new Font(16)).getLineHeight();
         if (size == ArcSize.BIG) {
-            return 50;
+            return 50 + height/2;
         } else {
             return 190;
         }
@@ -123,9 +124,10 @@ public class ChoreArc {
         trans.append(Affine.rotate(90, x1, y1));
         g.setTransform(trans);
 
-        g.setFont(new Font(12));
-        g.strokeText(name, getTextX(name) + x + w / 2, getTextY(name) + h / 8, 60);
-        g.fillText(name, getTextX(name) + x + w / 2, getTextY(name) + h / 8, 60);
+        g.setFill(Color.WHITE);
+        g.setFont(new Font(16));
+        g.strokeText(name, getTextX(name) + x + w / 2, getTextY(name) + h / 8, 80);
+        g.fillText(name, getTextX(name) + x + w / 2, getTextY(name) + h / 8, 80);
 
         g.setTransform(new Affine());
     }
@@ -136,6 +138,12 @@ public class ChoreArc {
 
     public boolean intersects() {
         return getIntersectStartAngle() < 360 && getIntersectEndAngle() >= 360 ||
+                getIntersectStartAngle() < 720 && getIntersectEndAngle() >= 720;
+    }
+
+    public boolean intersectsSmall() {
+        return getIntersectStartAngle() < 0 && getIntersectEndAngle() >= 0 ||
+                getIntersectStartAngle() < 360 && getIntersectEndAngle() >= 360 ||
                 getIntersectStartAngle() < 720 && getIntersectEndAngle() >= 720;
     }
 }
